@@ -1,0 +1,45 @@
+<div class="d-flex justify-content-between align-items-center mx-4 my-2">
+    <button class="btn btn-info" (click)="toHomePage()">Home</button>
+    <button class="btn btn-info">Logs</button>
+    <button class="btn btn-info">Admin</button>
+    <button class="btn btn-info">Settings</button>
+</div>
+<div class="d-flex justify-content-center align-items-center my-5">
+    <select (change)="reset()" class="mr-3" [(ngModel)]="tableFilter">
+        <option>Day</option>
+        <option>Month</option>
+    </select>
+    <input *ngIf="tableFilter=='Day'" type="date" />
+    <input *ngIf="tableFilter=='Month'" type="month" />
+    <button (click)="getData()" class="btn btn-info ml-3">Get</button>
+</div>
+<div *ngIf="isGetPressed">
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="text-center" scope="col" align="center" width="10%">#</th>
+                <th class="text-center" scope="col" align="center" width="45%">For</th>
+                <th class="text-center" scope="col" align="center" width="45%">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let t of data;index as i">
+                <th align="center" width="10%" scope="row">{{i+1}}</th>
+                <td align="center" width="45%">{{t.for}}</td>
+                <td align="center" width="45%">{{t.amount}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-center align-items-center my-5">
+        <h5>Total :₹ 140</h5>
+    </div>
+    <div *ngIf="tableFilter=='Month'" class="container d-flex flex-column justify-content-center align-items-center my-5 mx-2">
+        <p>Amount Collected:<span style="font-weight: bold;"
+                [ngClass]="amountCollected>30000?'text-danger':'text-success'"> ₹ {{amountCollected}}</span></p>
+        <p>Saved: <span style="font-weight: bold;" class="text-info">₹ {{saved}}</span></p>
+        <p><span style="font-weight: bold;" [ngClass]="result>0?'text-danger':'text-success'">₹ {{result}}</span> <span style="font-weight: bold;"
+                *ngIf="result>0">
+                over</span><span style="font-weight: bold;" *ngIf="result<=0"> under</span> the
+            limit. </p>
+    </div>
+</div>
