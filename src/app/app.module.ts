@@ -6,12 +6,14 @@ import { AppComponent } from './app.component';
 import { KeyComponent } from './key/key.component';
 import { HomeComponent } from './home/home.component';
 import { FormsModule } from '@angular/forms';
+import { OldStatsComponent } from './old-stats/old-stats.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     KeyComponent,
-    HomeComponent
+    HomeComponent,
+    OldStatsComponent
   ],
   imports: [
     BrowserModule,
