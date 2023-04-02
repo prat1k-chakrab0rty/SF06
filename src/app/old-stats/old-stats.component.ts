@@ -33,6 +33,10 @@ export class OldStatsComponent {
     this.router.navigate(['home']);
   }
 
+  toLogsPage() {
+    this.router.navigate(['logs']);
+  }
+  
   getData(){
     this.isGetPressed=true;
   }

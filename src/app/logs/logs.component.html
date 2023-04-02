@@ -1,0 +1,52 @@
+<div class="d-flex justify-content-between align-items-center mx-4 my-2">
+    <button class="btn btn-info" (click)="toHomePage()">Home</button>
+    <button class="btn btn-info" (click)="toOldStatsPage()">Old Stats</button>
+    <button class="btn btn-info">Admin</button>
+    <button class="btn btn-info">Settings</button>
+</div>
+<div class="d-flex justify-content-center align-items-center mt-5 mb-2">
+    <select (change)="reset()" class="mr-3" [(ngModel)]="logsFilter">
+        <option value="0">All</option>
+        <option value="1">Money Added</option>
+        <option value="2">Dues Clearance</option>
+        <option value="3">Balance Refill</option>
+    </select>
+    <select (change)="reset()" class="mr-3" [(ngModel)]="timeFilter">
+        <option>Day</option>
+        <option>Month</option>
+    </select>
+    <input style="width: 120px;" *ngIf="timeFilter=='Day'" type="date" />
+    <input style="width: 120px;" *ngIf="timeFilter=='Month'" type="month" />
+</div>
+<div class="d-flex justify-content-center align-items-center mb-5">
+    <button (click)="filterLogs()" class="btn btn-info ml-3">Get</button>
+</div>
+<div *ngIf="isGetPressed" class=" container d-flex flex-column justify-content-center align-items-start my-5">
+    <p *ngFor="let log of filteredLogs">
+
+        <span *ngIf="log.type==1" class="d-flex align-items-center">
+            <i style="margin-right: 0.25rem;" class="bi bi-coin text-success"></i>
+            <span>{{log.who}} has added {{log.sum}} to the balance.</span><span
+                class="d-flex flex-column align-items-center justify-content-center pl-2" style="height: 24px;"><span
+                    style="font-size:6px; font-weight: bold;" class="text-info">{{log.time}}</span><span
+                    style="font-size:6px; font-weight: bold;"
+                    class="text-info">{{log.date.substring(0,5)}}</span></span>
+        </span>
+        <span *ngIf="log.type==2" class="d-flex align-items-center">
+            <i style="margin-right: 0.25rem;" class="bi bi-coin text-primary"></i>
+            <span>{{admin}} has cleared the {{log.amount}} dues of {{log.who}}.</span><span
+                class="d-flex flex-column align-items-center justify-content-center pl-2" style="height: 24px;"><span
+                    style="font-size:6px; font-weight: bold;" class="text-info">{{log.time}}</span><span
+                    style="font-size:6px; font-weight: bold;"
+                    class="text-info">{{log.date.substring(0,5)}}</span></span>
+        </span>
+        <span *ngIf="log.type==3" class="d-flex align-items-center">
+            <i style="margin-right: 0.25rem;" class="bi bi-coin text-danger"></i>
+            <span>{{admin}} has raised a requirement of ₹ {{log.amount}}.</span><span
+                class="d-flex flex-column align-items-center justify-content-center pl-2" style="height: 24px;"><span
+                    style="font-size:6px; font-weight: bold;" class="text-info">{{log.time}}</span><span
+                    style="font-size:6px; font-weight: bold;"
+                    class="text-info">{{log.date.substring(0,5)}}</span></span>
+        </span>
+    </p>
+</div>

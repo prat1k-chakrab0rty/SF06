@@ -7,13 +7,15 @@ import { KeyComponent } from './key/key.component';
 import { HomeComponent } from './home/home.component';
 import { FormsModule } from '@angular/forms';
 import { OldStatsComponent } from './old-stats/old-stats.component';
+import { LogsComponent } from './logs/logs.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     KeyComponent,
     HomeComponent,
-    OldStatsComponent
+    OldStatsComponent,
+    LogsComponent
   ],
   imports: [
     BrowserModule,

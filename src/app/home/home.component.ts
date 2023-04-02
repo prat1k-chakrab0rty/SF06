@@ -39,4 +39,7 @@ export class HomeComponent {
   toOldStatsPage() {
     this.router.navigate(['old-stats']);
   }
+  toLogsPage() {
+    this.router.navigate(['logs']);
+  }
 }

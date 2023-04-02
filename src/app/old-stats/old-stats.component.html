@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-between align-items-center mx-4 my-2">
     <button class="btn btn-info" (click)="toHomePage()">Home</button>
-    <button class="btn btn-info">Logs</button>
+    <button class="btn btn-info" (click)="toLogsPage()">Logs</button>
     <button class="btn btn-info">Admin</button>
     <button class="btn btn-info">Settings</button>
 </div>
@@ -33,12 +33,13 @@
     <div class="d-flex justify-content-center align-items-center my-5">
         <h5>Total :₹ 140</h5>
     </div>
-    <div *ngIf="tableFilter=='Month'" class="container d-flex flex-column justify-content-center align-items-center my-5 mx-2">
+    <div *ngIf="tableFilter=='Month'"
+        class="container d-flex flex-column justify-content-center align-items-center my-5 mx-2">
         <p>Amount Collected:<span style="font-weight: bold;"
                 [ngClass]="amountCollected>30000?'text-danger':'text-success'"> ₹ {{amountCollected}}</span></p>
         <p>Saved: <span style="font-weight: bold;" class="text-info">₹ {{saved}}</span></p>
-        <p><span style="font-weight: bold;" [ngClass]="result>0?'text-danger':'text-success'">₹ {{result}}</span> <span style="font-weight: bold;"
-                *ngIf="result>0">
+        <p><span style="font-weight: bold;" [ngClass]="result>0?'text-danger':'text-success'">₹ {{result}}</span> <span
+                style="font-weight: bold;" *ngIf="result>0">
                 over</span><span style="font-weight: bold;" *ngIf="result<=0"> under</span> the
             limit. </p>
     </div>
