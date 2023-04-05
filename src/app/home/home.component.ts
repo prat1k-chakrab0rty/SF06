@@ -41,7 +41,7 @@ export class HomeComponent {
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0');
     var yyyy = today.getFullYear();
-    this.value = mm + '/' + dd + '/' + yyyy;
+    this.value = dd + '/' + mm + '/' + yyyy;
   }
   toOldStatsPage() {
     this.router.navigate(['old-stats']);
