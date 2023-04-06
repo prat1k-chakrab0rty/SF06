@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { ApiService } from '../api.service';
 
 @Component({
   selector: 'app-key',
@@ -8,9 +9,16 @@ import { Router } from '@angular/router';
 })
 export class KeyComponent {
   passCode: string = "";
-  constructor(public router: Router) { }
+  constructor(public router: Router, public service: ApiService) { }
   submit() {
-    if (this.passCode == "2222")
-      this.router.navigate(['home']);
+    this.service.login(this.passCode).subscribe({
+      next: (data) => {
+        if (data.isValid)
+          this.router.navigate(['home']);
+      },
+      error: (message) => {
+        console.log(message);
+      }
+    })
   }
 }
