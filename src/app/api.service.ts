@@ -10,6 +10,6 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
   login(passcode:string): Observable<any> {
-    return this.http.get<any>(this.baseApiUrl + '/users/'+passcode);
+    return this.http.get<any>(this.baseApiUrl + '/users/login/'+passcode);
   }
 }
