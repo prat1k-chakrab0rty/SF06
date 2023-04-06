@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { ApiService } from '../api.service';
 
 @Component({
   selector: 'app-home',
@@ -8,24 +9,6 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent {
   transactions: any[] = [
-    {
-      payer: "Pratik",
-      for: "Onion",
-      amount: 60,
-      isPaid: true
-    },
-    {
-      payer: "Sharuk",
-      for: "Potato",
-      amount: 30,
-      isPaid: false
-    },
-    {
-      payer: "Gaurav",
-      for: "Watermelon",
-      amount: 50,
-      isPaid: false
-    }
   ];
   name: string = "Gaurav";
   isSufficient: boolean = true;
@@ -35,13 +18,22 @@ export class HomeComponent {
   flatmate: string[] = ["Gaurav", "Pratik"];
   viewBy: string = "1";
   value: string = "";
-  constructor(public router: Router) { }
+  constructor(public router: Router, public service: ApiService) { }
   ngOnInit() {
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0');
     var yyyy = today.getFullYear();
     this.value = dd + '/' + mm + '/' + yyyy;
+    this.service.getAllTransactions().subscribe({
+      next: (data) => {
+        console.log(data);
+        this.transactions=data;
+      },
+      error: (message) => {
+        console.log(message);
+      }
+    })
   }
   toOldStatsPage() {
     this.router.navigate(['old-stats']);
