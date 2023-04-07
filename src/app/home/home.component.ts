@@ -18,7 +18,7 @@ export class HomeComponent {
   viewBy: string = "1";
   value: string = "";
   for: string = "";
-  amountforTransaction: number = 0;
+  amountforTransaction: string = "";
   constructor(public router: Router, public service: ApiService) { }
   ngOnInit() {
     var today = new Date();
@@ -72,7 +72,7 @@ export class HomeComponent {
   }
 
   addTransaction() {
-    this.service.createTransaction({ userId: localStorage.getItem("userId"), amount: this.amount, for: this.for }).subscribe({
+    this.service.createTransaction({ userId: localStorage.getItem("userId"), amount: Number(this.amountforTransaction), for: this.for }).subscribe({
       next: (data) => {
         console.log(data);
         this.service.getAllTransactions().subscribe({
