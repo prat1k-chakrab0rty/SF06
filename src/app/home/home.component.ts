@@ -26,6 +26,15 @@ export class HomeComponent {
     var mm = String(today.getMonth() + 1).padStart(2, '0');
     var yyyy = today.getFullYear();
     this.value = dd + '/' + mm + '/' + yyyy;
+    this.service.getUserById(Number(localStorage.getItem("userId"))).subscribe({
+      next: (data) => {
+        console.log(data);
+        this.name = data.firstName;
+      },
+      error: (message) => {
+        console.log(message);
+      }
+    })
     this.service.getAllTransactions().subscribe({
       next: (data) => {
         console.log(data);
@@ -75,6 +84,8 @@ export class HomeComponent {
     this.service.createTransaction({ userId: localStorage.getItem("userId"), amount: Number(this.amountforTransaction), for: this.for }).subscribe({
       next: (data) => {
         console.log(data);
+        this.amountforTransaction="";
+        this.for="";
         this.service.getAllTransactions().subscribe({
           next: (data) => {
             console.log(data);
