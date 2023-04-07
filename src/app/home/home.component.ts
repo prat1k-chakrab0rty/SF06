@@ -26,7 +26,7 @@ export class HomeComponent {
     var mm = String(today.getMonth() + 1).padStart(2, '0');
     var yyyy = today.getFullYear();
     this.value = dd + '/' + mm + '/' + yyyy;
-    this.service.getUserById(localStorage.getItem("userId")).subscribe({
+    this.service.getUserById(String(localStorage.getItem("userId"))).subscribe({
       next: (data) => {
         console.log(data);
         this.name = data.firstName;
