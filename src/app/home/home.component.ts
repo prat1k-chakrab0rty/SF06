@@ -17,6 +17,8 @@ export class HomeComponent {
   flatmate: string[] = ["Gaurav", "Pratik"];
   viewBy: string = "1";
   value: string = "";
+  for: string = "";
+  amountforTransaction: number = 0;
   constructor(public router: Router, public service: ApiService) { }
   ngOnInit() {
     var today = new Date();
@@ -27,7 +29,7 @@ export class HomeComponent {
     this.service.getAllTransactions().subscribe({
       next: (data) => {
         console.log(data);
-        this.transactions=data;
+        this.transactions = data;
       },
       error: (message) => {
         console.log(message);
@@ -67,5 +69,25 @@ export class HomeComponent {
       var today = new Date();
       this.value = months[today.getMonth()];
     }
+  }
+
+  addTransaction() {
+    this.service.createTransaction({ userId: localStorage.getItem("userId"), amount: this.amount, for: this.for }).subscribe({
+      next: (data) => {
+        console.log(data);
+        this.service.getAllTransactions().subscribe({
+          next: (data) => {
+            console.log(data);
+            this.transactions = data;
+          },
+          error: (message) => {
+            console.log(message);
+          }
+        })
+      },
+      error: (message) => {
+        console.log(message);
+      }
+    })
   }
 }

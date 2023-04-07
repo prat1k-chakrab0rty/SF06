@@ -14,7 +14,10 @@ export class KeyComponent {
     this.service.login(this.passCode).subscribe({
       next: (data) => {
         if (data.isValid)
+        {
+          localStorage.setItem('userId',data.data._id);  
           this.router.navigate(['home']);
+        }
       },
       error: (message) => {
         console.log(message);

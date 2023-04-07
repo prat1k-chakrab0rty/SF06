@@ -18,4 +18,7 @@ export class ApiService {
   getAllUsers(): Observable<any> {
     return this.http.get<any>(this.baseApiUrl + '/users');
   }
+  createTransaction(payload:any): Observable<any> {
+    return this.http.post<any>(this.baseApiUrl + '/transactions',payload);
+  }
 }
