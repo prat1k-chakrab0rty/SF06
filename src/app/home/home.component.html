@@ -28,7 +28,7 @@
     <tbody>
         <tr *ngFor="let t of transactions;index as i">
             <th align="center" width="10%" scope="row">{{i+1}}</th>
-            <td align="center" width="25%"></td>
+            <td align="center" width="25%">{{t.firstName}}</td>
             <td align="center" width="25%">{{t.for}}</td>
             <td align="center" width="20%">{{t.amount}}</td>
             <td align="center" width="20%"><input type="checkbox" [(ngModel)]="t.isPaidBack" /></td>

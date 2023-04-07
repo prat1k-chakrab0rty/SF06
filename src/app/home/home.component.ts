@@ -8,8 +8,7 @@ import { ApiService } from '../api.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-  transactions: any[] = [
-  ];
+  transactions: any[] = [];
   name: string = "Gaurav";
   isSufficient: boolean = true;
   spendStatus: number = 3;

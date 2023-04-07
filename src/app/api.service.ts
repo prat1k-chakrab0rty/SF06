@@ -15,4 +15,7 @@ export class ApiService {
   getAllTransactions(): Observable<any> {
     return this.http.get<any>(this.baseApiUrl + '/transactions');
   }
+  getAllUsers(): Observable<any> {
+    return this.http.get<any>(this.baseApiUrl + '/users');
+  }
 }
