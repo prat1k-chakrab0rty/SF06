@@ -9,7 +9,7 @@ import { ApiService } from '../api.service';
 })
 export class HomeComponent {
   transactions: any[] = [];
-  name: string = "Gaurav";
+  name: string = "";
   isSufficient: boolean = true;
   spendStatus: number = 3;
   amount: number[] = [360, 80];
@@ -26,7 +26,7 @@ export class HomeComponent {
     var mm = String(today.getMonth() + 1).padStart(2, '0');
     var yyyy = today.getFullYear();
     this.value = dd + '/' + mm + '/' + yyyy;
-    this.service.getUserById(Number(localStorage.getItem("userId"))).subscribe({
+    this.service.getUserById(localStorage.getItem("userId")).subscribe({
       next: (data) => {
         console.log(data);
         this.name = data.firstName;

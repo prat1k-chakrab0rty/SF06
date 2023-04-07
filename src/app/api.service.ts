@@ -18,7 +18,7 @@ export class ApiService {
   getAllUsers(): Observable<any> {
     return this.http.get<any>(this.baseApiUrl + '/users');
   }
-  getUserById(id:number): Observable<any> {
+  getUserById(id:string): Observable<any> {
     return this.http.get<any>(this.baseApiUrl + '/users/'+id);
   }
   createTransaction(payload:any): Observable<any> {
