@@ -29,7 +29,7 @@ export class HomeComponent {
     this.service.getUserById(String(localStorage.getItem("userId"))).subscribe({
       next: (data) => {
         console.log(data);
-        this.name = data.firstName;
+        this.name = data[0].firstName;
       },
       error: (message) => {
         console.log(message);
