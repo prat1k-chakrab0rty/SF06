@@ -27,4 +27,7 @@ export class ApiService {
   updateTransaction(payload:any,transactionId:string): Observable<any> {
     return this.http.put<any>(this.baseApiUrl + '/transactions/'+transactionId,payload);
   }
+  getAvailableBalance(): Observable<any> {
+    return this.http.get<any>(this.baseApiUrl + '/transactions/getBalance');
+  }
 }

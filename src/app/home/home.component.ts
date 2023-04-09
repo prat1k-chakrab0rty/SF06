@@ -20,6 +20,7 @@ export class HomeComponent {
   value: string = "";
   for: string = "";
   amountforTransaction: string = "";
+  availableBalance: any;
   constructor(public router: Router, public service: ApiService) { }
   ngOnInit() {
     var today = new Date();
@@ -41,6 +42,15 @@ export class HomeComponent {
       next: (data) => {
         console.log(data);
         this.transactions = data;
+      },
+      error: (message) => {
+        console.log(message);
+      }
+    })
+    this.service.getAvailableBalance().subscribe({
+      next: (data) => {
+        console.log(data);
+        this.availableBalance = data.balance;
       },
       error: (message) => {
         console.log(message);
