@@ -106,7 +106,7 @@ export class HomeComponent {
     this.service.updateTransaction({ isPaidBack:true },id).subscribe({
       next: (data) => {
         console.log(data);
-        this.transactions[i]=data;
+        this.transactions[i].isPaidBack=data.isPaidBack;
       },
       error: (message) => {
         console.log(message);
