@@ -103,20 +103,9 @@ export class HomeComponent {
   }
   
   updateTransaction(id:string,i:number) {
-    this.service.updateTransaction({ isPaidBack:this.transactions[i].isPaidBack },id).subscribe({
+    this.service.updateTransaction({ isPaidBack:true },id).subscribe({
       next: (data) => {
         console.log(data);
-        this.amountforTransaction="";
-        this.for="";
-        this.service.getAllTransactions().subscribe({
-          next: (data) => {
-            console.log(data);
-            this.transactions = data;
-          },
-          error: (message) => {
-            console.log(message);
-          }
-        })
       },
       error: (message) => {
         console.log(message);
