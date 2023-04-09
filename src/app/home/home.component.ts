@@ -86,6 +86,26 @@ export class HomeComponent {
     this.service.createTransaction({ userId: localStorage.getItem("userId"), amount: Number(this.amountforTransaction), for: this.for }).subscribe({
       next: (data) => {
         console.log(data);
+        this.service.getAllTransactions().subscribe({
+          next: (data) => {
+            console.log(data);
+            this.transactions = data;
+          },
+          error: (message) => {
+            console.log(message);
+          }
+        })
+      },
+      error: (message) => {
+        console.log(message);
+      }
+    })
+  }
+  
+  updateTransaction(id:string,i:number) {
+    this.service.updateTransaction({ isPaidBack:this.transactions[i].isPaidBack },id).subscribe({
+      next: (data) => {
+        console.log(data);
         this.amountforTransaction="";
         this.for="";
         this.service.getAllTransactions().subscribe({
@@ -103,4 +123,6 @@ export class HomeComponent {
       }
     })
   }
+
+  
 }

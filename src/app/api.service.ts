@@ -24,4 +24,7 @@ export class ApiService {
   createTransaction(payload:any): Observable<any> {
     return this.http.post<any>(this.baseApiUrl + '/transactions',payload);
   }
+  updateTransaction(payload:any,transactionId:string): Observable<any> {
+    return this.http.put<any>(this.baseApiUrl + '/transactions/'+transactionId,payload);
+  }
 }
