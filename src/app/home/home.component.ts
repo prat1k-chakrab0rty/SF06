@@ -11,6 +11,7 @@ export class HomeComponent {
   transactions: any[] = [];
   name: string = "";
   isSufficient: boolean = true;
+  isAdmin: boolean = false;
   spendStatus: number = 3;
   amount: number[] = [360, 80];
   admin: string = "Sharuk";
@@ -30,6 +31,7 @@ export class HomeComponent {
       next: (data) => {
         console.log(data);
         this.name = data[0].firstName;
+        this.isAdmin = data[0].isAdmin;
       },
       error: (message) => {
         console.log(message);
