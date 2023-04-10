@@ -77,7 +77,7 @@ export class HomeComponent {
       var date2 = new Date();
       var months = ["Jan", "Feb", "Mar", "Apr", "May", "June",
         "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
-      date1.setDate(date1.getDate() - date1.getDay());
+      date1.setDate(date1.getDate() - date1.getDay()+1);
       date2.setDate(date2.getDate() - date2.getDay());
       var startDayOfWeek = date1;
       date2.setDate(date2.getDate() + 7);
