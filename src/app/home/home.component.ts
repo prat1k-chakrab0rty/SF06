@@ -54,6 +54,7 @@ export class HomeComponent {
           next: (data) => {
             console.log(data);
             this.totalCreditedBalance = data.amount;
+            this.calculateSpendoMeter();
           },
           error: (message) => {
             console.log(message);
@@ -67,7 +68,6 @@ export class HomeComponent {
         else {
           this.isSufficient = false;
         }
-        this.calculateSpendoMeter();
       },
       error: (message) => {
         console.log(message);
