@@ -163,8 +163,11 @@ export class HomeComponent {
     var now = new Date();
     var dayNumber = now.getDate();
     var totalDaysInCurrentMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-    var averageSpendForADay = Number(this.totalCreditedBalance) / totalDaysInCurrentMonth;
-    var totalSpentTillDate = Number(this.totalCreditedBalance - this.availableBalance);
+    console.log(this.totalCreditedBalance);
+    console.log(this.availableBalance);
+    var averageSpendForADay = this.totalCreditedBalance / totalDaysInCurrentMonth;
+    var totalSpentTillDate = this.totalCreditedBalance - this.availableBalance;
+
     console.log(totalDaysInCurrentMonth+" "+averageSpendForADay+" "+totalSpentTillDate);
     if (averageSpendForADay * dayNumber > totalSpentTillDate) {
       this.spendStatus = 3;
