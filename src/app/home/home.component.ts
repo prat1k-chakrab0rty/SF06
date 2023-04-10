@@ -70,14 +70,14 @@ export class HomeComponent {
       var dd = String(today.getDate()).padStart(2, '0');
       var mm = String(today.getMonth() + 1).padStart(2, '0');
       var yyyy = today.getFullYear();
-      this.value = mm + '/' + dd + '/' + yyyy;
+      this.value = dd + '/' + mm + '/' + yyyy;
     }
     else if (this.viewBy == "2") {
       var date1 = new Date();
       var date2 = new Date();
       var months = ["Jan", "Feb", "Mar", "Apr", "May", "June",
         "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
-      date1.setDate(date1.getDate() - date1.getDay()+1);
+      date1.setDate(date1.getDate() - date1.getDay() + 1);
       date2.setDate(date2.getDate() - date2.getDay());
       var startDayOfWeek = date1;
       date2.setDate(date2.getDate() + 7);
@@ -100,6 +100,8 @@ export class HomeComponent {
           next: (data) => {
             console.log(data);
             this.transactions = data;
+            this.for = "";
+            this.amountforTransaction = "";
           },
           error: (message) => {
             console.log(message);
@@ -111,12 +113,21 @@ export class HomeComponent {
       }
     })
   }
-  
-  updateTransaction(id:string,i:number) {
-    this.service.updateTransaction({ isPaidBack:true },id).subscribe({
+
+  updateTransaction(id: string, i: number) {
+    this.service.updateTransaction({ isPaidBack: true }, id).subscribe({
       next: (data) => {
         console.log(data);
-        this.transactions[i].isPaidBack=data.isPaidBack;
+        this.transactions[i].isPaidBack = data.isPaidBack;
+        this.service.getAvailableBalance().subscribe({
+          next: (data) => {
+            console.log(data);
+            this.availableBalance = data.balance;
+          },
+          error: (message) => {
+            console.log(message);
+          }
+        })
       },
       error: (message) => {
         console.log(message);
@@ -124,5 +135,5 @@ export class HomeComponent {
     })
   }
 
-  
+
 }
