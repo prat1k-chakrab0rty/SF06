@@ -20,7 +20,7 @@ export class HomeComponent {
   value: string = "";
   for: string = "";
   amountforTransaction: string = "";
-  availableBalance: any;
+  availableBalance: number=0;
   totalCreditedBalance: number = 0;
   constructor(public router: Router, public service: ApiService) { }
   ngOnInit() {
@@ -50,6 +50,15 @@ export class HomeComponent {
     })
     this.service.getAvailableBalance().subscribe({
       next: (data) => {
+        this.service.getTotalCreditedAmount().subscribe({
+          next: (data) => {
+            console.log(data);
+            this.totalCreditedBalance = data.amount;
+          },
+          error: (message) => {
+            console.log(message);
+          }
+        })
         console.log(data);
         this.availableBalance = data.balance;
         if (this.availableBalance > 1000) {
@@ -58,21 +67,12 @@ export class HomeComponent {
         else {
           this.isSufficient = false;
         }
+        this.calculateSpendoMeter();
       },
       error: (message) => {
         console.log(message);
       }
     })
-    this.service.getTotalCreditedAmount().subscribe({
-      next: (data) => {
-        console.log(data);
-        this.totalCreditedBalance = data.amount;
-      },
-      error: (message) => {
-        console.log(message);
-      }
-    })
-    this.calculateSpendoMeter();
   }
   toOldStatsPage() {
     this.router.navigate(['old-stats']);
@@ -168,7 +168,7 @@ export class HomeComponent {
     var averageSpendForADay = this.totalCreditedBalance / totalDaysInCurrentMonth;
     var totalSpentTillDate = this.totalCreditedBalance - this.availableBalance;
 
-    console.log(totalDaysInCurrentMonth+" "+averageSpendForADay+" "+totalSpentTillDate);
+    console.log(totalDaysInCurrentMonth + " " + averageSpendForADay + " " + totalSpentTillDate);
     if (averageSpendForADay * dayNumber > totalSpentTillDate) {
       this.spendStatus = 3;
     }
