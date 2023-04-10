@@ -30,4 +30,7 @@ export class ApiService {
   getAvailableBalance(): Observable<any> {
     return this.http.get<any>(this.baseApiUrl + '/transactions/getBalance');
   }
+  getTotalCreditedAmount(): Observable<any> {
+    return this.http.get<any>(this.baseApiUrl + '/transactions/getTotalCreditedAmount');
+  }
 }

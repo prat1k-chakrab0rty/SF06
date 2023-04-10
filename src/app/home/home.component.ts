@@ -21,6 +21,7 @@ export class HomeComponent {
   for: string = "";
   amountforTransaction: string = "";
   availableBalance: any;
+  totalCreditedBalance: number = 0;
   constructor(public router: Router, public service: ApiService) { }
   ngOnInit() {
     var today = new Date();
@@ -51,6 +52,21 @@ export class HomeComponent {
       next: (data) => {
         console.log(data);
         this.availableBalance = data.balance;
+        if (this.availableBalance > 1000) {
+          this.isSufficient = true;
+        }
+        else {
+          this.isSufficient = false;
+        }
+      },
+      error: (message) => {
+        console.log(message);
+      }
+    })
+    this.service.getTotalCreditedAmount().subscribe({
+      next: (data) => {
+        console.log(data);
+        this.totalCreditedBalance = data.amount;
       },
       error: (message) => {
         console.log(message);
@@ -123,11 +139,18 @@ export class HomeComponent {
           next: (data) => {
             console.log(data);
             this.availableBalance = data.balance;
+            if (this.availableBalance > 1000) {
+              this.isSufficient = true;
+            }
+            else {
+              this.isSufficient = false;
+            }
           },
           error: (message) => {
             console.log(message);
           }
         })
+        this.calculateSpendoMeter();
       },
       error: (message) => {
         console.log(message);
@@ -135,5 +158,21 @@ export class HomeComponent {
     })
   }
 
+  calculateSpendoMeter() {
+    var now = new Date();
+    var dayNumber = now.getDate();
+    var totalDaysInCurrentMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+    var averageSpendForADay = this.totalCreditedBalance / totalDaysInCurrentMonth;
+    var totalSpentTillDate = this.totalCreditedBalance - this.availableBalance;
+    if (averageSpendForADay * dayNumber > totalSpentTillDate) {
+      this.spendStatus = 3;
+    }
+    else if (averageSpendForADay * dayNumber == totalSpentTillDate) {
+      this.spendStatus = 2;
+    }
+    else {
+      this.spendStatus = 1;
+    }
+  }
 
 }
