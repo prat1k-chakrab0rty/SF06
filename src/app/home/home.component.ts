@@ -12,7 +12,7 @@ export class HomeComponent {
   name: string = "";
   isSufficient: boolean = true;
   isAdmin: boolean = false;
-  spendStatus: number = 3;
+  spendStatus: number = 0;
   amount: number[] = [360, 80];
   admin: string = "Sharuk";
   flatmate: string[] = ["Gaurav", "Pratik"];
