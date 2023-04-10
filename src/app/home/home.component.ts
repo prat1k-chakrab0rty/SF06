@@ -72,6 +72,7 @@ export class HomeComponent {
         console.log(message);
       }
     })
+    this.calculateSpendoMeter();
   }
   toOldStatsPage() {
     this.router.navigate(['old-stats']);
