@@ -153,21 +153,21 @@ export class HomeComponent {
             else {
               this.isSufficient = false;
             }
-            this.service.getDuesDetail().subscribe({
-              next: (data) => {
-                console.log(data);
-                this.dueDetailsOfUser = data;
-              },
-              error: (message) => {
-                console.log(message);
-              }
-            })
           },
           error: (message) => {
             console.log(message);
           }
         })
         this.calculateSpendoMeter();
+        this.service.getDuesDetail().subscribe({
+          next: (data) => {
+            console.log(data);
+            this.dueDetailsOfUser = data;
+          },
+          error: (message) => {
+            console.log(message);
+          }
+        })
       },
       error: (message) => {
         console.log(message);
