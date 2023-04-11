@@ -12,8 +12,8 @@ export class ApiService {
   login(passcode: string): Observable<any> {
     return this.http.get<any>(this.baseApiUrl + '/users/login/' + passcode);
   }
-  getAllTransactions(): Observable<any> {
-    return this.http.get<any>(this.baseApiUrl + '/transactions');
+  getAllTransactions(type:string): Observable<any> {
+    return this.http.get<any>(this.baseApiUrl + '/transactions/'+type);
   }
   getAllUsers(): Observable<any> {
     return this.http.get<any>(this.baseApiUrl + '/users');

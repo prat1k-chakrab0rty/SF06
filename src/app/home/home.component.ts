@@ -37,7 +37,7 @@ export class HomeComponent {
         console.log(message);
       }
     })
-    this.service.getAllTransactions().subscribe({
+    this.service.getAllTransactions(this.viewBy).subscribe({
       next: (data) => {
         console.log(data);
         this.transactions = data;
@@ -89,14 +89,14 @@ export class HomeComponent {
   }
 
   updateValue() {
-    if (this.viewBy == "1") {
+    if (this.viewBy == "day") {
       var today = new Date();
       var dd = String(today.getDate()).padStart(2, '0');
       var mm = String(today.getMonth() + 1).padStart(2, '0');
       var yyyy = today.getFullYear();
       this.value = dd + '/' + mm + '/' + yyyy;
     }
-    else if (this.viewBy == "2") {
+    else if (this.viewBy == "week") {
       var date1 = new Date();
       var date2 = new Date();
       var months = ["Jan", "Feb", "Mar", "Apr", "May", "June",
@@ -108,19 +108,28 @@ export class HomeComponent {
       var endDayOfWeek = date2;
       this.value = startDayOfWeek.getDate().toString() + " " + months[startDayOfWeek.getMonth()] + " - " + endDayOfWeek.getDate().toString() + " " + months[endDayOfWeek.getMonth()];
     }
-    else if (this.viewBy == "3") {
+    else if (this.viewBy == "month") {
       var months = ["January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"];
       var today = new Date();
       this.value = months[today.getMonth()];
     }
+    this.service.getAllTransactions(this.viewBy).subscribe({
+      next: (data) => {
+        console.log(data);
+        this.transactions = data;
+      },
+      error: (message) => {
+        console.log(message);
+      }
+    })
   }
 
   addTransaction() {
     this.service.createTransaction({ userId: localStorage.getItem("userId"), amount: Number(this.amountforTransaction), for: this.for }).subscribe({
       next: (data) => {
         console.log(data);
-        this.service.getAllTransactions().subscribe({
+        this.service.getAllTransactions(this.viewBy).subscribe({
           next: (data) => {
             console.log(data);
             this.transactions = data;
