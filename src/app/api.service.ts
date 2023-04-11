@@ -33,4 +33,7 @@ export class ApiService {
   getTotalCreditedAmount(): Observable<any> {
     return this.http.get<any>(this.baseApiUrl + '/transactions/getTotalCreditedAmount');
   }
+  getDuesDetail(): Observable<any> {
+    return this.http.get<any>(this.baseApiUrl + '/transactions/getDuesDetail');
+  }
 }

@@ -13,15 +13,13 @@ export class HomeComponent {
   isSufficient: boolean = true;
   isAdmin: boolean = false;
   spendStatus: number = 0;
-  amount: number[] = [360, 80];
-  admin: string = "Sharuk";
-  flatmate: string[] = ["Gaurav", "Pratik"];
   viewBy: string = "1";
   value: string = "";
   for: string = "";
   amountforTransaction: string = "";
-  availableBalance: number=0;
+  availableBalance: number = 0;
   totalCreditedBalance: number = 0;
+  dueDetailsOfUser: any = [];
   constructor(public router: Router, public service: ApiService) { }
   ngOnInit() {
     var today = new Date();
@@ -55,6 +53,15 @@ export class HomeComponent {
             console.log(data);
             this.totalCreditedBalance = data.amount;
             this.calculateSpendoMeter();
+            this.service.getDuesDetail().subscribe({
+              next: (data) => {
+                console.log(data);
+                this.dueDetailsOfUser = data;
+              },
+              error: (message) => {
+                console.log(message);
+              }
+            })
           },
           error: (message) => {
             console.log(message);
@@ -146,6 +153,15 @@ export class HomeComponent {
             else {
               this.isSufficient = false;
             }
+            this.service.getDuesDetail().subscribe({
+              next: (data) => {
+                console.log(data);
+                this.dueDetailsOfUser = data;
+              },
+              error: (message) => {
+                console.log(message);
+              }
+            })
           },
           error: (message) => {
             console.log(message);
