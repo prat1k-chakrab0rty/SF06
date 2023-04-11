@@ -13,7 +13,7 @@ export class ApiService {
     return this.http.get<any>(this.baseApiUrl + '/users/login/' + passcode);
   }
   getAllTransactions(type:string): Observable<any> {
-    return this.http.get<any>(this.baseApiUrl + '/transactions/'+type);
+    return this.http.get<any>(this.baseApiUrl + '/transactions/filter/'+type);
   }
   getAllUsers(): Observable<any> {
     return this.http.get<any>(this.baseApiUrl + '/users');
