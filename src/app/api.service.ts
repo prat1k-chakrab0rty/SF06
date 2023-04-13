@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ApiService {
-  baseApiUrl: string = "http://localhost:3000";
+  baseApiUrl: string = "http://light-gold-chipmunk.cyclic.app";
   constructor(private http: HttpClient) { }
 
   login(passcode: string): Observable<any> {
