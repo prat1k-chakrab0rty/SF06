@@ -26,12 +26,14 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let t of transactions;index as i">
-            <th align="center" width="10%" scope="row">{{i+1}}</th>
-            <td align="center" width="25%">{{t.firstName}}</td>
-            <td align="center" width="25%">{{t.for}}</td>
-            <td align="center" width="20%">{{t.amount}}</td>
-            <td align="center" width="20%"><input [disabled]="!isAdmin || t.isPaidBack" (click)="updateTransaction(t._id,i)" type="checkbox" [(ngModel)]="t.isPaidBack" /></td>
+        <tr *ngFor="let t of transactions">
+            <td *ngIf="t.isTransaction" align="center" width="10%" scope="row">{{t.index}}</td>
+            <td *ngIf="t.isTransaction" align="center" width="25%">{{t.firstName}}</td>
+            <td *ngIf="t.isTransaction" align="center" width="25%">{{t.for}}</td>
+            <td *ngIf="t.isTransaction" align="center" width="20%">{{t.amount}}</td>
+            <td *ngIf="t.isTransaction" align="center" width="20%"><input [disabled]="!isAdmin || t.isPaidBack"
+                    (click)="updateTransaction(t._id,t.index-1)" type="checkbox" [(ngModel)]="t.isPaidBack" /></td>
+            <td *ngIf="!t.isTransaction && viewBy!='day'" class="text-info font-weight-bold" colspan="5" align="center" width="100vw">{{t.date}}</td>
         </tr>
     </tbody>
 </table>
@@ -39,18 +41,23 @@
     <div style="width: 10%;"></div>
     <input class="text-center" style="width: 25%; font-weight: bold;" disabled [(ngModel)]="name" />
     <input style="width: 23%; margin: 0 1%;" placeholder="Oil 1 LTR" [(ngModel)]="for" />
-    <input style="width: 18%; margin: 0 1%;" placeholder="₹ 80 /-" [(ngModel)]="amountforTransaction"/>
+    <input style="width: 18%; margin: 0 1%;" placeholder="₹ 80 /-" [(ngModel)]="amountforTransaction" />
     <div style="width: 18%; margin: 0 1%;">
         <button style="width: 100%;" (click)="addTransaction()" class="btn btn-info">Post</button>
     </div>
 </div>
 <div class="d-flex justify-content-center mt-5">
-    <h3>Balance:<span *ngIf="availableBalance!=0" style="font-weight: bolder;" [ngClass]="isSufficient?'text-success':'text-danger'"
-            class="small"><span style="font-size: x-large;"> ₹</span>{{availableBalance}}</span></h3>
+    <h3>Balance:<span *ngIf="availableBalance!=0" style="font-weight: bolder;"
+            [ngClass]="isSufficient?'text-success':'text-danger'" class="small"><span style="font-size: x-large;">
+                ₹</span>{{availableBalance}}</span></h3>
 </div>
 <div class="d-flex justify-content-center mt-5">
-    <h1>Spend-o-meter:<span *ngIf="spendStatus!=0"><span class="text-danger" *ngIf="spendStatus==1"> <i class="bi bi-arrow-up statusAnim"></i></span><span class="text-primary statusAnim" *ngIf="spendStatus==2"> -</span><span class="text-success statusAnim" *ngIf="spendStatus==3"> <i class="bi bi-arrow-down"></i></span></span></h1>
+    <h1>Spend-o-meter:<span *ngIf="spendStatus!=0"><span class="text-danger" *ngIf="spendStatus==1"> <i
+                    class="bi bi-arrow-up statusAnim"></i></span><span class="text-primary statusAnim"
+                *ngIf="spendStatus==2"> -</span><span class="text-success statusAnim" *ngIf="spendStatus==3"> <i
+                    class="bi bi-arrow-down"></i></span></span></h1>
 </div>
 <div class="d-flex flex-column justify-content-center align-items-center mt-5">
-    <h5 *ngFor="let data of dueDetailsOfUser">{{data.admin}} needs to return <span style="font-weight: bolder;">₹ {{data.dueAmount}}</span> to {{data.user}}.</h5>
+    <h5 *ngFor="let data of dueDetailsOfUser">{{data.admin}} needs to return <span style="font-weight: bolder;">₹
+            {{data.dueAmount}}</span> to {{data.user}}.</h5>
 </div>

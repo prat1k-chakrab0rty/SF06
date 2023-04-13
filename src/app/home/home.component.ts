@@ -39,7 +39,12 @@ export class HomeComponent {
     })
     this.service.getAllTransactions(this.viewBy).subscribe({
       next: (data) => {
+        var i = 1;
         console.log(data);
+        data.forEach((t: any) => {
+          t.index = i++;
+          t.isTransaction = true;
+        });
         this.transactions = data;
       },
       error: (message) => {
@@ -95,60 +100,99 @@ export class HomeComponent {
       var mm = String(today.getMonth() + 1).padStart(2, '0');
       var yyyy = today.getFullYear();
       this.value = dd + '/' + mm + '/' + yyyy;
+      this.service.getAllTransactions(this.viewBy).subscribe({
+        next: (data) => {
+          console.log(data);
+          var i = 1;
+          data.forEach((t: any) => {
+            t.index = i++;
+            t.isTransaction = true;
+          });
+          this.transactions = data;
+        },
+        error: (message) => {
+          console.log(message);
+        }
+      })
     }
     else if (this.viewBy == "week") {
       var date1 = new Date();
       var date2 = new Date();
       var months = ["Jan", "Feb", "Mar", "Apr", "May", "June",
         "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
+      var day = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
       date1.setDate(date1.getDate() - date1.getDay() + 1);
       date2.setDate(date2.getDate() - date2.getDay());
       var startDayOfWeek = date1;
       date2.setDate(date2.getDate() + 7);
       var endDayOfWeek = date2;
       this.value = startDayOfWeek.getDate().toString() + " " + months[startDayOfWeek.getMonth()] + " - " + endDayOfWeek.getDate().toString() + " " + months[endDayOfWeek.getMonth()];
+      this.transactions = [];
+      this.service.getAllTransactions(this.viewBy).subscribe({
+        next: (data) => {
+          console.log(data);
+          data.forEach((t: any) => {
+            t.timeStamp = (new Date(t.timeStamp).getDay() - 1);
+          });
+          var lastDay = data[0].timeStamp;
+          var i = 1;
+          this.transactions[0] = { date: day[data[0].timeStamp], isTransaction: false };
+          data.forEach((t: any) => {
+            if (lastDay != t.timeStamp) {
+              this.transactions.push({ date: day[t.timeStamp], isTransaction: false });
+              lastDay = t.timeStamp;
+            }
+            t.index = i++;
+            t.isTransaction = true;
+            this.transactions.push(t);
+          });
+          console.log(this.transactions);
+        },
+        error: (message) => {
+          console.log(message);
+        }
+      })
     }
     else if (this.viewBy == "month") {
       var months = ["January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"];
       var today = new Date();
       this.value = months[today.getMonth()];
+      this.transactions = [];
+      this.service.getAllTransactions(this.viewBy).subscribe({
+        next: (data) => {
+          console.log(data);
+          data.forEach((t: any) => {
+            t.timeStamp = t.timeStamp.split('T')[0].toString();
+          });
+          var lastDate = data[0].timeStamp;
+          var i = 1;
+          this.transactions[0] = { date: data[0].timeStamp, isTransaction: false };
+          data.forEach((t: any) => {
+            if (lastDate != t.timeStamp) {
+              this.transactions.push({ date: t.timeStamp, isTransaction: false });
+              lastDate = t.timeStamp;
+            }
+            t.index = i++;
+            t.isTransaction = true;
+            this.transactions.push(t);
+          });
+          console.log(this.transactions);
+        },
+        error: (message) => {
+          console.log(message);
+        }
+      })
     }
-    this.service.getAllTransactions(this.viewBy).subscribe({
-      next: (data) => {
-        console.log(data);
-        this.transactions = data;
-      },
-      error: (message) => {
-        console.log(message);
-      }
-    })
   }
 
   addTransaction() {
     this.service.createTransaction({ userId: localStorage.getItem("userId"), amount: Number(this.amountforTransaction), for: this.for }).subscribe({
       next: (data) => {
         console.log(data);
-        this.service.getAllTransactions(this.viewBy).subscribe({
-          next: (data) => {
-            console.log(data);
-            this.transactions = data;
-            this.for = "";
-            this.amountforTransaction = "";
-            this.service.getDuesDetail().subscribe({
-              next: (data) => {
-                console.log(data);
-                this.dueDetailsOfUser = data;
-              },
-              error: (message) => {
-                console.log(message);
-              }
-            })
-          },
-          error: (message) => {
-            console.log(message);
-          }
-        })
+        this.updateValue();
+        this.for="";
+        this.amountforTransaction="";
       },
       error: (message) => {
         console.log(message);
