@@ -37,20 +37,35 @@ export class HomeComponent {
         console.log(message);
       }
     })
-    this.service.getAllTransactions(this.viewBy).subscribe({
-      next: (data) => {
-        var i = 1;
-        console.log(data);
-        data.forEach((t: any) => {
-          t.index = i++;
-          t.isTransaction = true;
-        });
-        this.transactions = data;
-      },
-      error: (message) => {
-        console.log(message);
-      }
-    })
+    var months = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"];
+  var today = new Date();
+  this.value = months[today.getMonth()];
+  this.transactions = [];
+  this.service.getAllTransactions(this.viewBy).subscribe({
+    next: (data) => {
+      console.log(data);
+      data.forEach((t: any) => {
+        t.timeStamp = t.timeStamp.split('T')[0].toString();
+      });
+      var lastDate = data[0].timeStamp;
+      var i = 1;
+      this.transactions[0] = { date: data[0].timeStamp, isTransaction: false };
+      data.forEach((t: any) => {
+        if (lastDate != t.timeStamp) {
+          this.transactions.push({ date: t.timeStamp, isTransaction: false });
+          lastDate = t.timeStamp;
+        }
+        t.index = i++;
+        t.isTransaction = true;
+        this.transactions.push(t);
+      });
+      console.log(this.transactions);
+    },
+    error: (message) => {
+      console.log(message);
+    }
+  })
     this.service.getAvailableBalance().subscribe({
       next: (data) => {
         this.service.getTotalCreditedAmount().subscribe({
