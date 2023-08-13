@@ -13,7 +13,7 @@ export class HomeComponent {
   isSufficient: boolean = true;
   isAdmin: boolean = false;
   spendStatus: number = 0;
-  viewBy: string = "day";
+  viewBy: string = "month";
   value: string = "";
   for: string = "";
   amountforTransaction: string = "";
