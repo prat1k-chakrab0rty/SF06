@@ -1,4 +1,4 @@
-<div style="height: 100vh;" class="d-flex justify-content-center align-items-center">
+<div style="height: 100vh;" class="d-flex justify-content-center align-items-center" (keyup.enter)="submit()">
     <div class="container-fluid">
         <div class="row mb-5">
             <div class="col-12 mb-5">
@@ -7,10 +7,10 @@
             <div class="col-12 mb-5">
                 <div class="form-group">
                     <p class="w-100 text-center text-info" style="font-size: xx-large;" for="passCode">Enter the Passcode</p>
-                    <input type="password" class="form-control bg-transparent outline-info" id="passCode" aria-describedby="passCode" [(ngModel)]="passCode">
+                    <input type="password" class="form-control bg-transparent outline-info" id="passCode" aria-describedby="passCode" [(ngModel)]="passCode" autofocus>
                 </div>
                 <div class="d-flex justify-content-center">
-                    <button type="submit" (click)="submit()" class="btn btn-info">Reach</button>
+                    <button type="submit" (click)="submit()"  class="btn btn-info">Reach</button>
                 </div>
             </div>
         </div>

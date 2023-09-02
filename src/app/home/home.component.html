@@ -1,3 +1,4 @@
+<!-- Homepage elements -->
 <div class="d-flex justify-content-between align-items-center mx-4 my-2">
     <button class="btn btn-info" (click)="toOldStatsPage()">Old stats</button>
     <button class="btn btn-info" (click)="toLogsPage()">Logs</button>
@@ -20,20 +21,21 @@
         <tr>
             <th class="text-center" scope="col" align="center" width="10%">#</th>
             <th class="text-center" scope="col" align="center" width="25%">Payer</th>
-            <th class="text-center" scope="col" align="center" width="25%">For</th>
+            <th class="text-center" scope="col" align="center" width="35%">For</th>
             <th class="text-center" scope="col" align="center" width="20%">Amount</th>
-            <th class="text-center" scope="col" align="center" width="20%">Is Paid</th>
+            <th class="text-center" scope="col" align="center" width="10%">Paid</th>
         </tr>
     </thead>
     <tbody>
         <tr *ngFor="let t of transactions">
             <td *ngIf="t.isTransaction" align="center" width="10%" scope="row">{{t.index}}</td>
             <td *ngIf="t.isTransaction" align="center" width="25%">{{t.firstName}}</td>
-            <td *ngIf="t.isTransaction" align="center" width="25%">{{t.for}}</td>
+            <td *ngIf="t.isTransaction" align="center" width="35%">{{t.for}}</td>
             <td *ngIf="t.isTransaction" align="center" width="20%">{{t.amount}}</td>
-            <td *ngIf="t.isTransaction" align="center" width="20%"><input [disabled]="!isAdmin || t.isPaidBack"
+            <td *ngIf="t.isTransaction" align="center" width="10%"><input [disabled]="!isAdmin || t.isPaidBack"
                     (click)="updateTransaction(t._id,t.index-1)" type="checkbox" [(ngModel)]="t.isPaidBack" /></td>
-            <td *ngIf="!t.isTransaction && viewBy!='day'" class="text-info font-weight-bold" colspan="5" align="center" width="100vw">{{t.date}}</td>
+            <td *ngIf="!t.isTransaction && viewBy!='day'" class="text-info font-weight-bold" colspan="5" align="center"
+                width="100vw">{{t.date}}</td>
         </tr>
     </tbody>
 </table>
@@ -47,8 +49,8 @@
     </div>
 </div>
 <div class="d-flex justify-content-center mt-5">
-    <h3>Balance:<span *ngIf="availableBalance!=0" style="font-weight: bolder;"
-            [ngClass]="isSufficient?'text-success':'text-danger'" class="small"><span style="font-size: x-large;">
+    <h3>Balance:<span style="font-weight: bolder;"
+            [ngClass]="isSufficient?'text-success':availableBalance==0?'text-info':'text-danger'" class="small"><span style="font-size: x-large;">
                 ₹</span>{{availableBalance}}</span></h3>
 </div>
 <div class="d-flex justify-content-center mt-5">
@@ -60,4 +62,31 @@
 <div class="d-flex flex-column justify-content-center align-items-center mt-5">
     <h5 *ngFor="let data of dueDetailsOfUser">{{data.admin}} needs to return <span style="font-weight: bolder;">₹
             {{data.dueAmount}}</span> to {{data.user}}.</h5>
+</div>
+<div class="d-flex justify-content-center align-items-center mt-2">
+    <button data-toggle="modal" data-target="#creditBookModal" Launch demo modal class="btn btn-info"
+        *ngIf="isAdmin">Creditbook</button>
+</div>
+<!-- Add credit modal -->
+<div class="modal fade" id="creditBookModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-center">Add credit transaction</h5>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <select [(ngModel)]="selectedUserId">
+                        <option *ngFor="let u of users" value="{{u._id}}">{{u.firstName}}</option>
+                    </select>
+                    <input type="number" placeholder=" ₹ 10000" class="on"
+                        [(ngModel)]="creditBalance">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button class="btn btn-info" (click)="addBalance()" data-dismiss="modal">Add Balance</button>
+            </div>
+        </div>
+    </div>
 </div>

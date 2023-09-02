@@ -13,9 +13,8 @@ export class KeyComponent {
   submit() {
     this.service.login(this.passCode).subscribe({
       next: (data) => {
-        if (data.isValid)
-        {
-          localStorage.setItem('userId',data.data._id);  
+        if (data.isValid) {
+          localStorage.setItem('userId', data.data._id);
           this.router.navigate(['home']);
         }
       },

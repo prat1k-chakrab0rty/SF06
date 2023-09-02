@@ -16,6 +16,9 @@ export class HomeComponent {
   viewBy: string = "month";
   value: string = "";
   for: string = "";
+  users: any[] = [];
+  selectedUserId:string=String(localStorage.getItem("userId"));
+  creditBalance:string="";
   amountforTransaction: string = "";
   availableBalance: number = 0;
   totalCreditedBalance: number = 0;
@@ -37,35 +40,66 @@ export class HomeComponent {
         console.log(message);
       }
     })
+    this.service.getAllUsers().subscribe({
+      next: (data) => {
+        console.log(data);
+        this.users = data;
+      },
+      error: (message) => {
+        console.log(message);
+      }
+    })
     var months = ["January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"];
-  var today = new Date();
-  this.value = months[today.getMonth()];
-  this.transactions = [];
-  this.service.getAllTransactions(this.viewBy).subscribe({
-    next: (data) => {
-      console.log(data);
-      data.forEach((t: any) => {
-        t.timeStamp = t.timeStamp.split('T')[0].toString();
-      });
-      var lastDate = data[0].timeStamp;
-      var i = 1;
-      this.transactions[0] = { date: data[0].timeStamp, isTransaction: false };
-      data.forEach((t: any) => {
-        if (lastDate != t.timeStamp) {
-          this.transactions.push({ date: t.timeStamp, isTransaction: false });
-          lastDate = t.timeStamp;
-        }
-        t.index = i++;
-        t.isTransaction = true;
-        this.transactions.push(t);
-      });
-      console.log(this.transactions);
-    },
-    error: (message) => {
-      console.log(message);
-    }
-  })
+      "July", "August", "September", "October", "November", "December"];
+    var today = new Date();
+    this.value = months[today.getMonth()];
+    this.transactions = [];
+    this.service.getAllTransactions(this.viewBy).subscribe({
+      next: (data) => {
+        console.log(data);
+        data.forEach((t: any) => {
+          t.timeStamp = t.timeStamp.split('T')[0].toString();
+        });
+        var lastDate = data[0].timeStamp;
+        var i = 1;
+        this.transactions[0] = { date: data[0].timeStamp, isTransaction: false };
+        data.forEach((t: any) => {
+          if (lastDate != t.timeStamp) {
+            this.transactions.push({ date: t.timeStamp, isTransaction: false });
+            lastDate = t.timeStamp;
+          }
+          t.index = i++;
+          t.isTransaction = true;
+          this.transactions.push(t);
+        });
+        console.log(this.transactions);
+      },
+      error: (message) => {
+        console.log(message);
+      }
+    })
+    this.updateBalance();
+  }
+  toOldStatsPage() {
+    this.router.navigate(['old-stats']);
+  }
+  toLogsPage() {
+    this.router.navigate(['logs']);
+  }
+  addBalance() {
+    this.service.createTransaction({ userId: this.selectedUserId, amount: Number(this.creditBalance), for: "SF06",isCredited:true }).subscribe({
+      next: (data) => {
+        this.updateBalance();
+        this.for = "";
+        this.selectedUserId = "";
+        this.creditBalance = "";
+      },
+      error: (message) => {
+        console.log(message);
+      }
+    })
+  }
+  updateBalance(){
     this.service.getAvailableBalance().subscribe({
       next: (data) => {
         this.service.getTotalCreditedAmount().subscribe({
@@ -101,13 +135,6 @@ export class HomeComponent {
       }
     })
   }
-  toOldStatsPage() {
-    this.router.navigate(['old-stats']);
-  }
-  toLogsPage() {
-    this.router.navigate(['logs']);
-  }
-
   updateValue() {
     if (this.viewBy == "day") {
       var today = new Date();
@@ -206,8 +233,8 @@ export class HomeComponent {
       next: (data) => {
         console.log(data);
         this.updateValue();
-        this.for="";
-        this.amountforTransaction="";
+        this.for = "";
+        this.amountforTransaction = "";
       },
       error: (message) => {
         console.log(message);
@@ -261,7 +288,7 @@ export class HomeComponent {
     if (averageSpendForADay * dayNumber > totalSpentTillDate) {
       this.spendStatus = 3;
     }
-    else if (averageSpendForADay * dayNumber == totalSpentTillDate) {
+    else if ((averageSpendForADay * dayNumber == totalSpentTillDate)) {
       this.spendStatus = 2;
     }
     else {
