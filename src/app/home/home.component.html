@@ -27,10 +27,11 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let t of transactions">
+        <tr *ngFor="let t of transactions;let index=index" (click)="detailedTransaction(index)" data-toggle="modal"
+            data-target="#detailedTransactionModal">
             <td *ngIf="t.isTransaction" align="center" width="10%" scope="row">{{t.index}}</td>
             <td *ngIf="t.isTransaction" align="center" width="25%">{{t.firstName}}</td>
-            <td *ngIf="t.isTransaction" align="center" width="35%">{{t.for}}</td>
+            <td *ngIf="t.isTransaction" align="center" width="35%">{{t.for.length>9?t.for.substring(0,5)+"...":t.for}}</td>
             <td *ngIf="t.isTransaction" align="center" width="20%">{{t.amount}}</td>
             <td *ngIf="t.isTransaction" align="center" width="10%"><input [disabled]="!isAdmin || t.isPaidBack"
                     (click)="updateTransaction(t._id,t.index-1)" type="checkbox" [(ngModel)]="t.isPaidBack" /></td>
@@ -50,7 +51,8 @@
 </div>
 <div class="d-flex justify-content-center mt-5">
     <h3>Balance:<span style="font-weight: bolder;"
-            [ngClass]="isSufficient?'text-success':availableBalance==0?'text-info':'text-danger'" class="small"><span style="font-size: x-large;">
+            [ngClass]="isSufficient?'text-success':availableBalance==0?'text-info':'text-danger'" class="small"><span
+                style="font-size: x-large;">
                 ₹</span>{{availableBalance}}</span></h3>
 </div>
 <div class="d-flex justify-content-center mt-5">
@@ -64,7 +66,7 @@
             {{data.dueAmount}}</span> to {{data.user}}.</h5>
 </div>
 <div class="d-flex justify-content-center align-items-center mt-2">
-    <button data-toggle="modal" data-target="#creditBookModal" Launch demo modal class="btn btn-info"
+    <button data-toggle="modal" data-target="#creditBookModal" Launch demo modal class="btn btn-info mb-2"
         *ngIf="isAdmin">Creditbook</button>
 </div>
 <!-- Add credit modal -->
@@ -79,13 +81,27 @@
                     <select [(ngModel)]="selectedUserId">
                         <option *ngFor="let u of users" value="{{u._id}}">{{u.firstName}}</option>
                     </select>
-                    <input type="number" placeholder=" ₹ 10000" class="on"
-                        [(ngModel)]="creditBalance">
+                    <input type="number" placeholder=" ₹ 10000" class="on" [(ngModel)]="creditBalance">
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button class="btn btn-info" (click)="addBalance()" data-dismiss="modal">Add Balance</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Detailed transaction modal -->
+<div *ngIf="detailedIndex!=null" class="modal fade" id="detailedTransactionModal" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="d-flex justify-content-between align-items-center my-4">
+                    <span>{{transactions[detailedIndex].firstName}}</span>
+                    <span>{{transactions[detailedIndex].for}}</span>
+                    <span>{{transactions[detailedIndex].amount}}</span>
+                </div>
             </div>
         </div>
     </div>

@@ -17,12 +17,13 @@ export class HomeComponent {
   value: string = "";
   for: string = "";
   users: any[] = [];
-  selectedUserId:string=String(localStorage.getItem("userId"));
-  creditBalance:string="";
+  selectedUserId: string = String(localStorage.getItem("userId"));
+  creditBalance: string = "";
   amountforTransaction: string = "";
   availableBalance: number = 0;
   totalCreditedBalance: number = 0;
   dueDetailsOfUser: any = [];
+  detailedIndex: any=null;
   constructor(public router: Router, public service: ApiService) { }
   ngOnInit() {
     var today = new Date();
@@ -87,7 +88,7 @@ export class HomeComponent {
     this.router.navigate(['logs']);
   }
   addBalance() {
-    this.service.createTransaction({ userId: this.selectedUserId, amount: Number(this.creditBalance), for: "SF06",isCredited:true }).subscribe({
+    this.service.createTransaction({ userId: this.selectedUserId, amount: Number(this.creditBalance), for: "SF06", isCredited: true }).subscribe({
       next: (data) => {
         this.updateBalance();
         this.for = "";
@@ -99,7 +100,7 @@ export class HomeComponent {
       }
     })
   }
-  updateBalance(){
+  updateBalance() {
     this.service.getAvailableBalance().subscribe({
       next: (data) => {
         this.service.getTotalCreditedAmount().subscribe({
@@ -278,7 +279,9 @@ export class HomeComponent {
       }
     })
   }
-
+  detailedTransaction(index: number) {
+    this.detailedIndex=index;
+  }
   calculateSpendoMeter() {
     var now = new Date();
     var dayNumber = now.getDate();
