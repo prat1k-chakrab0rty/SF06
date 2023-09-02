@@ -25,6 +25,7 @@ export class HomeComponent {
   totalCreditedBalance: number = 0;
   dueDetailsOfUser: any = [];
   detailedIndex: any = null;
+  newDateForChange:string="";
   transactionId: string = "";
   constructor(public router: Router, public service: ApiService) { }
   ngOnInit() {
@@ -237,6 +238,24 @@ export class HomeComponent {
         console.log(data);
         this.updateValue();
         this.updateBalance();
+        this.for = "";
+        this.transactionId = "";
+        this.amountforTransaction = "";
+        this.detailedIndex = null;
+      },
+      error: (message) => {
+        console.log(message);
+      }
+    })
+  }
+  addCurrentDateForTransaction(){
+    this.newDateForChange=this.transactions[this.detailedIndex].timeStamp.split("T")[0];
+  }
+  updateUserTransactionDate(){
+    this.service.updateTransaction({ timeStamp: (this.newDateForChange)}, this.transactionId).subscribe({
+      next: (data) => {
+        console.log(data);
+        this.updateValue();
         this.for = "";
         this.transactionId = "";
         this.amountforTransaction = "";
