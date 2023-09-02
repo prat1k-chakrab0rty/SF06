@@ -11,6 +11,7 @@ export class HomeComponent {
   transactions: any[] = [];
   name: string = "";
   isSufficient: boolean = true;
+  id:string="";
   isAdmin: boolean = false;
   spendStatus: number = 0;
   viewBy: string = "month";
@@ -24,6 +25,7 @@ export class HomeComponent {
   totalCreditedBalance: number = 0;
   dueDetailsOfUser: any = [];
   detailedIndex: any=null;
+  transactionId: string="";
   constructor(public router: Router, public service: ApiService) { }
   ngOnInit() {
     var today = new Date();
@@ -31,6 +33,7 @@ export class HomeComponent {
     var mm = String(today.getMonth() + 1).padStart(2, '0');
     var yyyy = today.getFullYear();
     this.value = dd + '/' + mm + '/' + yyyy;
+    this.id=""+localStorage.getItem("userId");
     this.service.getUserById(String(localStorage.getItem("userId"))).subscribe({
       next: (data) => {
         console.log(data);
@@ -228,7 +231,22 @@ export class HomeComponent {
       })
     }
   }
-
+  updateUserTransaction(){
+    this.service.updateTransaction({ userId: localStorage.getItem("userId"), amount: Number(this.amountforTransaction), for: this.for },this.transactionId).subscribe({
+      next: (data) => {
+        console.log(data);
+        this.updateValue();
+        this.updateBalance();
+        this.for = "";
+        this.transactionId="";
+        this.amountforTransaction = "";
+        this.detailedIndex=null;
+      },
+      error: (message) => {
+        console.log(message);
+      }
+    })
+  }
   addTransaction() {
     this.service.createTransaction({ userId: localStorage.getItem("userId"), amount: Number(this.amountforTransaction), for: this.for }).subscribe({
       next: (data) => {
@@ -281,6 +299,12 @@ export class HomeComponent {
   }
   detailedTransaction(index: number) {
     this.detailedIndex=index;
+    this.selectedUserId=this.transactions[this.detailedIndex].userId;
+  }
+  populateEditModal(){
+    this.transactionId=this.transactions[this.detailedIndex]._id;
+    this.for=this.transactions[this.detailedIndex].for;
+    this.amountforTransaction=this.transactions[this.detailedIndex].amount;
   }
   calculateSpendoMeter() {
     var now = new Date();

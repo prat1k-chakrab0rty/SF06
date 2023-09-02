@@ -31,7 +31,8 @@
             data-target="#detailedTransactionModal">
             <td *ngIf="t.isTransaction" align="center" width="10%" scope="row">{{t.index}}</td>
             <td *ngIf="t.isTransaction" align="center" width="25%">{{t.firstName}}</td>
-            <td *ngIf="t.isTransaction" align="center" width="35%">{{t.for.length>9?t.for.substring(0,5)+"...":t.for}}</td>
+            <td *ngIf="t.isTransaction" align="center" width="35%">{{t.for.length>9?t.for.substring(0,5)+"...":t.for}}
+            </td>
             <td *ngIf="t.isTransaction" align="center" width="20%">{{t.amount}}</td>
             <td *ngIf="t.isTransaction" align="center" width="10%"><input [disabled]="!isAdmin || t.isPaidBack"
                     (click)="updateTransaction(t._id,t.index-1)" type="checkbox" [(ngModel)]="t.isPaidBack" /></td>
@@ -78,10 +79,10 @@
             </div>
             <div class="modal-body">
                 <div class="d-flex justify-content-between align-items-center">
-                    <select [(ngModel)]="selectedUserId">
+                    <select style="height: 30px;" [(ngModel)]="selectedUserId">
                         <option *ngFor="let u of users" value="{{u._id}}">{{u.firstName}}</option>
                     </select>
-                    <input type="number" placeholder=" ₹ 10000" class="on" [(ngModel)]="creditBalance">
+                    <input style="width: 30vw;" type="number" placeholder=" ₹ 10000" class="on" [(ngModel)]="creditBalance">
                 </div>
             </div>
             <div class="modal-footer">
@@ -101,6 +102,29 @@
                     <span>{{transactions[detailedIndex].firstName}}</span>
                     <span>{{transactions[detailedIndex].for}}</span>
                     <span>{{transactions[detailedIndex].amount}}</span>
+                </div>
+                <div *ngIf="selectedUserId==id" class="mt-2 d-flex align-items-center justify-content-center">
+                    <button class="btn btn-info" data-toggle="modal" data-target="#editTransactionModal"
+                        data-dismiss="modal" (click)="populateEditModal()">Edit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Edit transaction modal -->
+<div *ngIf="detailedIndex!=null" class="modal fade" id="editTransactionModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="d-flex justify-content-between align-items-center my-4">
+                    <div class="d-flex justify-content-between align-items-center w-100">
+                        <span>{{transactions[detailedIndex].firstName}}</span>
+                        <input type="text" class="on" [(ngModel)]="for">
+                        <input type="number" class="on" [(ngModel)]="amountforTransaction">
+                    </div>
+                </div>
+                <div class="mt-2 d-flex align-items-center justify-content-center">
+                    <button class="btn btn-info" (click)="updateUserTransaction()" data-dismiss="modal">Update</button>
                 </div>
             </div>
         </div>
