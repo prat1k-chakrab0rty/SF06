@@ -27,13 +27,17 @@
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let t of transactions;let index=index" data-toggle="modal"
-            data-target="#detailedTransactionModal">
-            <td *ngIf="t.isTransaction" align="center" width="10%" scope="row" (click)="detailedTransaction(index)">{{t.index}}</td>
-            <td *ngIf="t.isTransaction" align="center" width="25%" (click)="detailedTransaction(index)">{{t.firstName}}</td>
-            <td *ngIf="t.isTransaction" align="center" width="35%" (click)="detailedTransaction(index)">{{t.for.length>9?t.for.substring(0,5)+"...":t.for}}
+        <tr *ngFor="let t of transactions;let index=index">
+            <td *ngIf="t.isTransaction" align="center" width="10%" scope="row" (click)="detailedTransaction(index)"
+                data-toggle="modal" data-target="#detailedTransactionModal">{{t.index}}</td>
+            <td *ngIf="t.isTransaction" align="center" width="25%" (click)="detailedTransaction(index)"
+                data-toggle="modal" data-target="#detailedTransactionModal">{{t.firstName}}</td>
+            <td *ngIf="t.isTransaction" align="center" width="35%" (click)="detailedTransaction(index)"
+                data-toggle="modal" data-target="#detailedTransactionModal">
+                {{t.for.length>9?t.for.substring(0,5)+"...":t.for}}
             </td>
-            <td *ngIf="t.isTransaction" align="center" width="20%" (click)="detailedTransaction(index)">{{t.amount}}</td>
+            <td *ngIf="t.isTransaction" align="center" width="20%" (click)="detailedTransaction(index)"
+                data-toggle="modal" data-target="#detailedTransactionModal">{{t.amount}}</td>
             <td *ngIf="t.isTransaction" align="center" width="10%"><input [disabled]="!isAdmin || t.isPaidBack"
                     (click)="updateTransaction(t._id,t.index-1)" type="checkbox" [(ngModel)]="t.isPaidBack" /></td>
             <td *ngIf="!t.isTransaction && viewBy!='day'" class="text-info font-weight-bold" colspan="5" align="center"
@@ -108,8 +112,10 @@
                     <button class="btn btn-info" data-toggle="modal" data-target="#editTransactionModal"
                         data-dismiss="modal" (click)="populateEditModal()">Edit
                     </button>
-                    <button class="btn btn-info" (click)="addCurrentDateForTransaction()" data-toggle="modal" data-dismiss="modal" data-target="#editDateModal">Change Date</button>
-                    <button class="btn btn-danger" data-toggle="modal" data-dismiss="modal" (click)="deleteTransaction()">Delete</button>
+                    <button class="btn btn-info" (click)="addCurrentDateForTransaction()" data-toggle="modal"
+                        data-dismiss="modal" data-target="#editDateModal">Change Date</button>
+                    <button class="btn btn-danger" data-toggle="modal" data-dismiss="modal"
+                        (click)="deleteTransaction()">Delete</button>
                 </div>
             </div>
         </div>
@@ -136,8 +142,8 @@
     </div>
 </div>
 <!-- Change Date modal -->
-<div *ngIf="detailedIndex!=null" class="modal fade" id="editDateModal" tabindex="-1"
-    aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div *ngIf="detailedIndex!=null" class="modal fade" id="editDateModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
@@ -147,7 +153,8 @@
                     </div>
                 </div>
                 <div class="mt-2 d-flex align-items-center justify-content-center">
-                    <button class="btn btn-info" (click)="updateUserTransactionDate()" data-dismiss="modal">Update</button>
+                    <button class="btn btn-info" (click)="updateUserTransactionDate()"
+                        data-dismiss="modal">Update</button>
                 </div>
             </div>
         </div>
