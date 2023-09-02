@@ -12,20 +12,23 @@ export class ApiService {
   login(passcode: string): Observable<any> {
     return this.http.get<any>(this.baseApiUrl + '/users/login/' + passcode);
   }
-  getAllTransactions(type:string): Observable<any> {
-    return this.http.get<any>(this.baseApiUrl + '/transactions/filter/'+type);
+  getAllTransactions(type: string): Observable<any> {
+    return this.http.get<any>(this.baseApiUrl + '/transactions/filter/' + type);
   }
   getAllUsers(): Observable<any> {
     return this.http.get<any>(this.baseApiUrl + '/users');
   }
-  getUserById(id:string): Observable<any> {
-    return this.http.get<any>(this.baseApiUrl + '/users/'+id);
+  getUserById(id: string): Observable<any> {
+    return this.http.get<any>(this.baseApiUrl + '/users/' + id);
   }
-  createTransaction(payload:any): Observable<any> {
-    return this.http.post<any>(this.baseApiUrl + '/transactions',payload);
+  createTransaction(payload: any): Observable<any> {
+    return this.http.post<any>(this.baseApiUrl + '/transactions', payload);
   }
-  updateTransaction(payload:any,transactionId:string): Observable<any> {
-    return this.http.put<any>(this.baseApiUrl + '/transactions/'+transactionId,payload);
+  updateTransaction(payload: any, transactionId: string): Observable<any> {
+    return this.http.put<any>(this.baseApiUrl + '/transactions/' + transactionId, payload);
+  }
+  removeTransaction(transactionId: string): Observable<any> {
+    return this.http.delete<any>(this.baseApiUrl + '/transactions/' + transactionId);
   }
   getAvailableBalance(): Observable<any> {
     return this.http.get<any>(this.baseApiUrl + '/transactions/getBalance');

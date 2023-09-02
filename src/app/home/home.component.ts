@@ -11,7 +11,7 @@ export class HomeComponent {
   transactions: any[] = [];
   name: string = "";
   isSufficient: boolean = true;
-  id:string="";
+  id: string = "";
   isAdmin: boolean = false;
   spendStatus: number = 0;
   viewBy: string = "month";
@@ -24,8 +24,8 @@ export class HomeComponent {
   availableBalance: number = 0;
   totalCreditedBalance: number = 0;
   dueDetailsOfUser: any = [];
-  detailedIndex: any=null;
-  transactionId: string="";
+  detailedIndex: any = null;
+  transactionId: string = "";
   constructor(public router: Router, public service: ApiService) { }
   ngOnInit() {
     var today = new Date();
@@ -33,7 +33,7 @@ export class HomeComponent {
     var mm = String(today.getMonth() + 1).padStart(2, '0');
     var yyyy = today.getFullYear();
     this.value = dd + '/' + mm + '/' + yyyy;
-    this.id=""+localStorage.getItem("userId");
+    this.id = "" + localStorage.getItem("userId");
     this.service.getUserById(String(localStorage.getItem("userId"))).subscribe({
       next: (data) => {
         console.log(data);
@@ -231,16 +231,16 @@ export class HomeComponent {
       })
     }
   }
-  updateUserTransaction(){
-    this.service.updateTransaction({ userId: localStorage.getItem("userId"), amount: Number(this.amountforTransaction), for: this.for },this.transactionId).subscribe({
+  updateUserTransaction() {
+    this.service.updateTransaction({ userId: localStorage.getItem("userId"), amount: Number(this.amountforTransaction), for: this.for }, this.transactionId).subscribe({
       next: (data) => {
         console.log(data);
         this.updateValue();
         this.updateBalance();
         this.for = "";
-        this.transactionId="";
+        this.transactionId = "";
         this.amountforTransaction = "";
-        this.detailedIndex=null;
+        this.detailedIndex = null;
       },
       error: (message) => {
         console.log(message);
@@ -260,7 +260,21 @@ export class HomeComponent {
       }
     })
   }
-
+  deleteTransaction() {
+    this.service.removeTransaction(this.transactionId).subscribe({
+      next: (data) => {
+        this.transactionId = "";
+        this.for = "";
+        this.amountforTransaction = "";
+        this.updateBalance();
+        this.updateValue();
+        this.detailedIndex=null;
+      },
+      error: (message) => {
+        console.log(message);
+      }
+    })
+  }
   updateTransaction(id: string, i: number) {
     this.service.updateTransaction({ isPaidBack: true }, id).subscribe({
       next: (data) => {
@@ -298,13 +312,13 @@ export class HomeComponent {
     })
   }
   detailedTransaction(index: number) {
-    this.detailedIndex=index;
-    this.selectedUserId=this.transactions[this.detailedIndex].userId;
+    this.detailedIndex = index;
+    this.selectedUserId = this.transactions[this.detailedIndex].userId;
+    this.transactionId = this.transactions[this.detailedIndex]._id;
   }
-  populateEditModal(){
-    this.transactionId=this.transactions[this.detailedIndex]._id;
-    this.for=this.transactions[this.detailedIndex].for;
-    this.amountforTransaction=this.transactions[this.detailedIndex].amount;
+  populateEditModal() {
+    this.for = this.transactions[this.detailedIndex].for;
+    this.amountforTransaction = this.transactions[this.detailedIndex].amount;
   }
   calculateSpendoMeter() {
     var now = new Date();

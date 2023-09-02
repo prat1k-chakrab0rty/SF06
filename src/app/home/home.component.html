@@ -82,7 +82,8 @@
                     <select style="height: 30px;" [(ngModel)]="selectedUserId">
                         <option *ngFor="let u of users" value="{{u._id}}">{{u.firstName}}</option>
                     </select>
-                    <input style="width: 30vw;" type="number" placeholder=" ₹ 10000" class="on" [(ngModel)]="creditBalance">
+                    <input style="width: 30vw;" type="number" placeholder=" ₹ 10000" class="on"
+                        [(ngModel)]="creditBalance">
                 </div>
             </div>
             <div class="modal-footer">
@@ -103,16 +104,19 @@
                     <span>{{transactions[detailedIndex].for}}</span>
                     <span>{{transactions[detailedIndex].amount}}</span>
                 </div>
-                <div *ngIf="selectedUserId==id" class="mt-2 d-flex align-items-center justify-content-center">
+                <div *ngIf="selectedUserId==id" class="mt-2 d-flex align-items-center justify-content-around">
                     <button class="btn btn-info" data-toggle="modal" data-target="#editTransactionModal"
-                        data-dismiss="modal" (click)="populateEditModal()">Edit</button>
+                        data-dismiss="modal" (click)="populateEditModal()">Edit
+                    </button>
+                    <button class="btn btn-danger" data-toggle="modal" data-dismiss="modal" (click)="deleteTransaction()">Delete</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <!-- Edit transaction modal -->
-<div *ngIf="detailedIndex!=null" class="modal fade" id="editTransactionModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div *ngIf="detailedIndex!=null" class="modal fade" id="editTransactionModal" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body">
