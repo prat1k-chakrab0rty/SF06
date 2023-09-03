@@ -39,4 +39,8 @@ export class ApiService {
   getDuesDetail(): Observable<any> {
     return this.http.get<any>(this.baseApiUrl + '/transactions/getDuesDetail');
   }
+  getCreditedTransactionForCurrentMonth(): Observable<any> {
+    return this.http.get<any>(this.baseApiUrl + '/transactions/getCredits/currentMonth');
+  }
+
 }
