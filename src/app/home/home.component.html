@@ -67,8 +67,13 @@
                     class="bi bi-arrow-down"></i></span></span></h1>
 </div>
 <div class="d-flex flex-column justify-content-center align-items-center mt-5">
-    <h5 *ngFor="let data of dueDetailsOfUser">{{data.admin}} needs to return <span style="font-weight: bolder;">₹
-            {{data.dueAmount}}</span> to {{data.user}}.</h5>
+    <div *ngFor="let data of dueDetailsOfUser" class="d-flex justify-content-center align-items-center mb-2">
+        <ng-container *ngIf="data.user!='Sriharan'">
+            <p class="mb-0">{{data.admin}} needs to return <span style="font-weight: bolder;">₹
+                    {{data.dueAmount}}</span> to {{data.user}}.</p>
+            <button *ngIf="isAdmin" class="btn btn-sm btn-info ml-2">Clear</button>
+        </ng-container>
+    </div>
 </div>
 <div class="d-flex justify-content-center align-items-center mt-2">
     <button data-toggle="modal" data-target="#creditBookModal" Launch demo modal class="btn btn-info mb-2"
