@@ -42,5 +42,8 @@ export class ApiService {
   getCreditedTransactionForCurrentMonth(): Observable<any> {
     return this.http.get<any>(this.baseApiUrl + '/transactions/getCredits/currentMonth');
   }
+  clearDuesForUser(userId:string): Observable<any> {
+    return this.http.put<any>(this.baseApiUrl + '/transactions/clearDues/'+userId,{});
+  }
 
 }

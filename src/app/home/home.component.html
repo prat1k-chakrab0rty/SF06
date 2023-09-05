@@ -71,7 +71,7 @@
         <ng-container *ngIf="data.user!='Sriharan'">
             <p class="mb-0">{{data.admin}} needs to return <span style="font-weight: bolder;">₹
                     {{data.dueAmount}}</span> to {{data.user}}.</p>
-            <button *ngIf="isAdmin" class="btn btn-sm btn-info ml-2">Clear</button>
+            <button *ngIf="isAdmin" [disabled]="data.dueAmount==0" class="btn btn-sm btn-info ml-2" (click)="clearDues(data.userId)">Clear</button>
         </ng-container>
     </div>
 </div>

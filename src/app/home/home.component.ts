@@ -232,6 +232,18 @@ export class HomeComponent {
       })
     }
   }
+  clearDues(userId:string){
+    this.service.clearDuesForUser(userId).subscribe({
+      next: (data) => {
+        console.log(data);
+        this.updateValue();
+        this.updateBalance();
+      },
+      error: (message) => {
+        console.log(message);
+      }
+    })
+  }
   updateUserTransaction() {
     this.service.updateTransaction({ userId: localStorage.getItem("userId"), amount: Number(this.amountforTransaction), for: this.for }, this.transactionId).subscribe({
       next: (data) => {
@@ -271,6 +283,7 @@ export class HomeComponent {
       next: (data) => {
         console.log(data);
         this.updateValue();
+        this.updateBalance();
         this.for = "";
         this.amountforTransaction = "";
       },
