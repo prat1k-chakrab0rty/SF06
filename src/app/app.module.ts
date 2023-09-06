@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { ToastrModule } from 'ngx-toastr';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { KeyComponent } from './key/key.component';
@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { OldStatsComponent } from './old-stats/old-stats.component';
 import { LogsComponent } from './logs/logs.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,6 +20,12 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule, 
+    ToastrModule.forRoot({
+      timeOut: 3000,
+      positionClass: 'toast-top-center',
+      preventDuplicates: true,
+    }), 
     FormsModule,
     AppRoutingModule,
     HttpClientModule

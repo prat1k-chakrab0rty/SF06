@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../api.service';
-
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -25,9 +25,9 @@ export class HomeComponent {
   totalCreditedBalance: number = 0;
   dueDetailsOfUser: any = [];
   detailedIndex: any = null;
-  newDateForChange:string="";
+  newDateForChange: string = "";
   transactionId: string = "";
-  constructor(public router: Router, public service: ApiService) { }
+  constructor(private toastr: ToastrService, public router: Router, public service: ApiService) { }
   ngOnInit() {
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
@@ -232,7 +232,7 @@ export class HomeComponent {
       })
     }
   }
-  clearDues(userId:string){
+  clearDues(userId: string) {
     this.service.clearDuesForUser(userId).subscribe({
       next: (data) => {
         console.log(data);
@@ -260,11 +260,11 @@ export class HomeComponent {
       }
     })
   }
-  addCurrentDateForTransaction(){
-    this.newDateForChange=this.transactions[this.detailedIndex].timeStamp.split("T")[0];
+  addCurrentDateForTransaction() {
+    this.newDateForChange = this.transactions[this.detailedIndex].timeStamp.split("T")[0];
   }
-  updateUserTransactionDate(){
-    this.service.updateTransaction({ timeStamp: (this.newDateForChange)}, this.transactionId).subscribe({
+  updateUserTransactionDate() {
+    this.service.updateTransaction({ timeStamp: (this.newDateForChange) }, this.transactionId).subscribe({
       next: (data) => {
         console.log(data);
         this.updateValue();
@@ -279,6 +279,18 @@ export class HomeComponent {
     })
   }
   addTransaction() {
+    if (Number.isNaN(this.amountforTransaction) || this.amountforTransaction == "" || this.for == "") {
+      this.toastr.error('Invalid values');
+      return;
+    }
+    if (Number.isNaN(this.amountforTransaction) || this.amountforTransaction == "") {
+      this.toastr.error('Invalid amount');
+      return;
+    }
+    if (this.for == "") {
+      this.toastr.error('Invalid for');
+      return;
+    }
     this.service.createTransaction({ userId: localStorage.getItem("userId"), amount: Number(this.amountforTransaction), for: this.for }).subscribe({
       next: (data) => {
         console.log(data);
@@ -300,7 +312,7 @@ export class HomeComponent {
         this.amountforTransaction = "";
         this.updateBalance();
         this.updateValue();
-        this.detailedIndex=null;
+        this.detailedIndex = null;
       },
       error: (message) => {
         console.log(message);
