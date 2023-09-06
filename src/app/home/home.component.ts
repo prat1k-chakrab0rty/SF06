@@ -279,7 +279,7 @@ export class HomeComponent {
     })
   }
   addTransaction() {
-    if (Number.isNaN(this.amountforTransaction) || this.amountforTransaction == "" || this.for == "") {
+    if ((Number.isNaN(this.amountforTransaction) || this.amountforTransaction == "") && this.for == "") {
       this.toastr.error('Invalid values');
       return;
     }
