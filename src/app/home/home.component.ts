@@ -27,6 +27,7 @@ export class HomeComponent {
   detailedIndex: any = null;
   newDateForChange: string = "";
   transactionId: string = "";
+  viewHome:boolean=false;
   constructor(private toastr: ToastrService, public router: Router, public service: ApiService) { }
   ngOnInit() {
     var today = new Date();
@@ -78,6 +79,7 @@ export class HomeComponent {
           this.transactions.push(t);
         });
         console.log(this.transactions);
+        this.viewHome=true;
       },
       error: (message) => {
         console.log(message);

@@ -10,6 +10,7 @@ import { OldStatsComponent } from './old-stats/old-stats.component';
 import { LogsComponent } from './logs/logs.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxLoadingModule } from 'ngx-loading';
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,7 +29,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     }), 
     FormsModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxLoadingModule.forRoot({}),
   ],
   providers: [HttpClient],
   bootstrap: [AppComponent]
