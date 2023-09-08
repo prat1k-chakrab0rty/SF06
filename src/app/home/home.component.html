@@ -16,7 +16,7 @@
         </select>
     </div>
 </div>
-<ngx-loading [show]="!viewHome || transactions.length==0"
+<ngx-loading [show]="!viewHome || (transactions.length==0 && viewBy!='day') || !fetchedByDay"
     [config]="{ backdropBorderRadius: '3px',primaryColour:'#17a2b8',secondaryColour:'#17a2b8',tertiaryColour:'#17a2b8',backdropBackgroundColour:'rgba(255,255,255,0)' }"></ngx-loading>
 <table class="table">
     <thead>
@@ -47,7 +47,7 @@
         </tr>
     </tbody>
 </table>
-<div *ngIf="name!='' && viewHome && transactions.length!=0" class="d-flex align-items-center w-100">
+<div *ngIf="(name!='' && viewHome && transactions.length!=0) || (fetchedByDay && viewBy=='day')" class="d-flex align-items-center w-100">
     <div style="width: 10%;"></div>
     <input class="text-center" style="width: 25%; font-weight: bold;" disabled [(ngModel)]="name" />
     <input style="width: 23%; margin: 0 1%;" placeholder="Oil 1 LTR" [(ngModel)]="for" />
@@ -56,19 +56,19 @@
         <button style="width: 100%;" (click)="addTransaction()" class="btn btn-info">Post</button>
     </div>
 </div>
-<div *ngIf="availableBalance!=0 && viewHome && transactions.length!=0" class="d-flex justify-content-center mt-5">
+<div *ngIf="(availableBalance!=0 && viewHome && transactions.length!=0) || (fetchedByDay && viewBy=='day')" class="d-flex justify-content-center mt-5">
     <h3>Balance:<span style="font-weight: bolder;"
             [ngClass]="isSufficient?'text-success':availableBalance==0?'text-info':'text-danger'" class="small"><span
                 style="font-size: x-large;">
                 ₹</span>{{availableBalance}}</span></h3>
 </div>
-<div *ngIf="spendStatus!=0 && viewHome && transactions.length!=0" class="d-flex justify-content-center mt-5">
+<div *ngIf="(spendStatus!=0 && viewHome && transactions.length!=0) || (fetchedByDay && viewBy=='day')" class="d-flex justify-content-center mt-5">
     <h1>Spend-o-meter:<span *ngIf="spendStatus!=0"><span class="text-danger" *ngIf="spendStatus==1"> <i
                     class="bi bi-arrow-up statusAnim"></i></span><span class="text-primary statusAnim"
                 *ngIf="spendStatus==2"> -</span><span class="text-success statusAnim" *ngIf="spendStatus==3"> <i
                     class="bi bi-arrow-down"></i></span></span></h1>
 </div>
-<div *ngIf="viewHome && transactions.length!=0" class="d-flex flex-column justify-content-center align-items-center mt-5">
+<div *ngIf="(viewHome && transactions.length!=0) || (fetchedByDay && viewBy=='day')" class="d-flex flex-column justify-content-center align-items-center mt-5">
     <div *ngFor="let data of dueDetailsOfUser" class="d-flex justify-content-center align-items-center mb-2">
         <ng-container *ngIf="data.user!='Sriharan'">
             <p class="mb-0">{{data.admin}} needs to return <span style="font-weight: bolder;">₹
@@ -78,7 +78,7 @@
         </ng-container>
     </div>
 </div>
-<div *ngIf="viewHome && transactions.length!=0" class="d-flex justify-content-center align-items-center mt-2">
+<div *ngIf="(viewHome && transactions.length!=0) || (fetchedByDay && viewBy=='day')" class="d-flex justify-content-center align-items-center mt-2">
     <button data-toggle="modal" data-target="#creditBookModal" Launch demo modal class="btn btn-info mb-2"
         *ngIf="isAdmin">Creditbook</button>
 </div>

@@ -18,6 +18,7 @@ export class HomeComponent {
   value: string = "";
   for: string = "";
   users: any[] = [];
+  fetchedByDay:boolean=true;
   selectedUserId: string = String(localStorage.getItem("userId"));
   creditBalance: string = "";
   amountforTransaction: string = "";
@@ -144,14 +145,17 @@ export class HomeComponent {
   }
   updateValue() {
     if (this.viewBy == "day") {
+      this.fetchedByDay=false;
       var today = new Date();
       var dd = String(today.getDate()).padStart(2, '0');
       var mm = String(today.getMonth() + 1).padStart(2, '0');
       var yyyy = today.getFullYear();
       this.value = dd + '/' + mm + '/' + yyyy;
+      this.transactions = [];
       this.service.getAllTransactions(this.viewBy).subscribe({
         next: (data) => {
           console.log(data);
+          this.fetchedByDay=true;
           var i = 1;
           data.forEach((t: any) => {
             t.index = i++;
