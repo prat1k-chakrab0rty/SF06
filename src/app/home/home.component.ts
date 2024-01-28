@@ -31,7 +31,7 @@ export class HomeComponent {
   viewHome:boolean=false;
   constructor(private toastr: ToastrService, public router: Router, public service: ApiService) { }
   ngOnInit() {
-    var today = new Date();
+    var today = new Date(2023,11,22);
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0');
     var yyyy = today.getFullYear();
@@ -58,7 +58,7 @@ export class HomeComponent {
     })
     var months = ["January", "February", "March", "April", "May", "June",
       "July", "August", "September", "October", "November", "December"];
-    var today = new Date();
+    var today = new Date(2023,11,22);
     this.value = months[today.getMonth()];
     this.transactions = [];
     this.service.getAllTransactions(this.viewBy).subscribe({
